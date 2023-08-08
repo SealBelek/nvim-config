@@ -9,12 +9,12 @@ vim.cmd [[packadd packer.nvim]]
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   use {
-    'svrana/neosolarized.nvim',
+    'svrana/neosolarized.nvim', -- colorschema
     requires = { 'tjdevries/colorbuddy.nvim' }
   }
 
   use {
-    'nvim-tree/nvim-tree.lua',
+    'nvim-tree/nvim-tree.lua', -- file explorer
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional
     },
@@ -28,7 +28,7 @@ packer.startup(function(use)
   use 'hrsh7th/nvim-cmp'                -- Completion
   use 'neovim/nvim-lspconfig'           -- LSP
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
-  use 'williamboman/mason.nvim'
+  use 'williamboman/mason.nvim'         -- Package manager for lsp
   use 'williamboman/mason-lspconfig.nvim'
 
   use 'glepnir/lspsaga.nvim'         -- LSP UIs
@@ -48,4 +48,6 @@ packer.startup(function(use)
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
+
+  use 'purescript-contrib/purescript-vim'
 end)

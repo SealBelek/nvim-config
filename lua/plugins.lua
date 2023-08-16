@@ -14,7 +14,7 @@ packer.startup(function(use)
   }
 
   use {
-    'nvim-tree/nvim-tree.lua', -- file explorer
+    'nvim-tree/nvim-tree.lua',       -- file explorer
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional
     },
@@ -39,10 +39,6 @@ packer.startup(function(use)
   use 'windwp/nvim-autopairs'
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/zen-mode.nvim'
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
   use 'akinsho/nvim-bufferline.lua'
   -- use 'github/copilot.vim'
 

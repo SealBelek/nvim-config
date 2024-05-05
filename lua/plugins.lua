@@ -49,6 +49,9 @@ packer.startup(function(use)
     },
   })
 
+  use {
+    "ray-x/lsp_signature.nvim",
+  }
 
   -- парсер для всех языков программирования, цветной код как в твоем
   -- любимом IDE

@@ -12,6 +12,17 @@ packer.startup(function(use)
     'svrana/neosolarized.nvim', -- colorschema
     requires = { 'tjdevries/colorbuddy.nvim' }
   }
+  -- парсер для всех языков программирования, цветной код как в твоем
+  -- любимом IDE
+  --  use {
+  --    'nvim-treesitter/nvim-treesitter',
+  --    run = ':TSUpdate',
+  --    config = function()
+  -- так подгружается конфигурация конкретного плагина
+  -- ~/.config/nvim/lua/plugins/treesitter.lua
+  --      require('plugins.treesitter')
+  --    end
+  --  }
 
   use {
     'nvim-tree/nvim-tree.lua',       -- file explorer
@@ -20,25 +31,39 @@ packer.startup(function(use)
     },
   }
 
-  use 'nvim-lualine/lualine.nvim'       -- Statusline
-  use 'nvim-lua/plenary.nvim'           -- Common utilities
-  use 'onsails/lspkind-nvim'            -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer'              -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp'            -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/nvim-cmp'                -- Completion
-  use 'neovim/nvim-lspconfig'           -- LSP
-  use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
-  use 'williamboman/mason.nvim'         -- Package manager for lsp
-  use 'williamboman/mason-lspconfig.nvim'
+  use 'nvim-lualine/lualine.nvim' -- Statusline
+  use 'nvim-lua/plenary.nvim'     -- Common utilities
+  use 'onsails/lspkind-nvim'      -- vscode-like pictograms
 
-  use 'glepnir/lspsaga.nvim'         -- LSP UIs
+  -- deps for autocomplet
+  use 'hrsh7th/cmp-buffer'   -- nvim-cmp source for buffer words
+  use 'hrsh7th/cmp-nvim-lsp' -- nvim-cmp source for neovim's built-in LSP
+  use 'hrsh7th/cmp-path'
+  -- autocomplet
+  use 'hrsh7th/nvim-cmp' -- Completion
+
+  -- configs for lsp servers
+  use 'neovim/nvim-lspconfig' -- LSP
+
+  --  use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
+  use 'williamboman/mason.nvim' -- Package manager for lsp
+  use 'williamboman/mason-lspconfig.nvim'
+  --
+  -- LSP UIs
+  use {
+    'glepnir/lspsaga.nvim',
+    after = 'nvim-lspconfig',
+  }
   use 'L3MON4D3/LuaSnip'
   use 'kyazdani42/nvim-web-devicons' -- File icons
+
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
+
   use 'windwp/nvim-autopairs'
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/zen-mode.nvim'
+  -- buffer/tabs at horizontal menu
   use 'akinsho/nvim-bufferline.lua'
   -- use 'github/copilot.vim'
 
@@ -52,8 +77,12 @@ packer.startup(function(use)
     run = function() vim.fn["mkdp#util#install"]() end,
   }
 
-  use {
-    "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = {
-    "markdown" },
-  }
+  --  use {
+  --    'olexsmir/gopher.nvim',
+  --    config = function()
+  --      require('plugins.gopher')
+  --    end
+  --  }
+
+  -- use 'fatih/vim-go'
 end)

@@ -4,6 +4,7 @@ local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
 local protocol = require('vim.lsp.protocol')
+local util = require('lspconfig/util')
 
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
@@ -132,6 +133,13 @@ nvim_lsp.astro.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }
+
+-- иницализация gopls LSP для Go
+-- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-install
+nvim_lsp.gopls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities
+})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {

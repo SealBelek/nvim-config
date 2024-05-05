@@ -12,17 +12,7 @@ packer.startup(function(use)
     'svrana/neosolarized.nvim', -- colorschema
     requires = { 'tjdevries/colorbuddy.nvim' }
   }
-  -- парсер для всех языков программирования, цветной код как в твоем
-  -- любимом IDE
-  --  use {
-  --    'nvim-treesitter/nvim-treesitter',
-  --    run = ':TSUpdate',
-  --    config = function()
-  -- так подгружается конфигурация конкретного плагина
-  -- ~/.config/nvim/lua/plugins/treesitter.lua
-  --      require('plugins.treesitter')
-  --    end
-  --  }
+
 
   use {
     'nvim-tree/nvim-tree.lua',       -- file explorer
@@ -50,10 +40,23 @@ packer.startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   --
   -- LSP UIs
-  use {
-    'glepnir/lspsaga.nvim',
+  use({
+    'nvimdev/lspsaga.nvim',
     after = 'nvim-lspconfig',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter', -- optional
+      'nvim-tree/nvim-web-devicons',     -- optional
+    },
+  })
+
+
+  -- парсер для всех языков программирования, цветной код как в твоем
+  -- любимом IDE
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
   }
+
   use 'L3MON4D3/LuaSnip'
   use 'kyazdani42/nvim-web-devicons' -- File icons
 

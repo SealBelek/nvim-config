@@ -137,8 +137,11 @@ nvim_lsp.astro.setup {
 -- иницализация gopls LSP для Go
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-install
 nvim_lsp.gopls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+    enable_format_on_save(client, bufnr)
+  end,
+  capabilities = capabilities,
 })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

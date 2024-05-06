@@ -32,6 +32,7 @@ packer.startup(function(use)
   -- autocomplet
   use 'hrsh7th/nvim-cmp' -- Completion
 
+  use 'Exafunction/codeium.vim'
   -- configs for lsp servers
   use 'neovim/nvim-lspconfig' -- LSP
 

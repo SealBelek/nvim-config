@@ -94,6 +94,11 @@ _G.packer_plugins = {
     path = "/home/sealbelek/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
+  ["codeium.vim"] = {
+    loaded = true,
+    path = "/home/sealbelek/.local/share/nvim/site/pack/packer/start/codeium.vim",
+    url = "https://github.com/Exafunction/codeium.vim"
+  },
   ["colorbuddy.nvim"] = {
     loaded = true,
     path = "/home/sealbelek/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim",

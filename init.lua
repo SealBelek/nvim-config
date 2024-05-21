@@ -1,3 +1,4 @@
+require('init-lazy')
 require('base')
 require('highlights')
 require('maps')

@@ -1,95 +1,72 @@
-local status, packer = pcall(require, "packer")
+local status, lazy = pcall(require, "lazy")
 if (not status) then
-  print("Packer is not installed")
+  print("Lazy is not installed")
   return
 end
 
-vim.cmd [[packadd packer.nvim]]
-
-packer.startup(function(use)
-  use 'wbthomason/packer.nvim'
-  use {
+lazy.setup({
+  'wbthomason/packer.nvim',
+  {
     'svrana/neosolarized.nvim', -- colorschema
-    requires = { 'tjdevries/colorbuddy.nvim' }
-  }
-
-
-  use {
+    dependencies = { 'tjdevries/colorbuddy.nvim' }
+  },
+  {
     'nvim-tree/nvim-tree.lua',       -- file explorer
-    requires = {
+    dependencies = {
       'nvim-tree/nvim-web-devicons', -- optional
     },
-  }
-
-  use 'nvim-lualine/lualine.nvim' -- Statusline
-  use 'nvim-lua/plenary.nvim'     -- Common utilities
-  use 'onsails/lspkind-nvim'      -- vscode-like pictograms
-
+  },
+  'nvim-lualine/lualine.nvim', -- Statusline
+  'nvim-lua/plenary.nvim',     -- Common utilities
+  'onsails/lspkind-nvim',      -- vscode-like pictograms
   -- deps for autocomplet
-  use 'hrsh7th/cmp-buffer'   -- nvim-cmp source for buffer words
-  use 'hrsh7th/cmp-nvim-lsp' -- nvim-cmp source for neovim's built-in LSP
-  use 'hrsh7th/cmp-path'
+  'hrsh7th/cmp-buffer',        -- nvim-cmp source for buffer words
+  'hrsh7th/cmp-nvim-lsp',      -- nvim-cmp source for neovim's built-in LSP
+  'hrsh7th/cmp-path',
   -- autocomplet
-  use 'hrsh7th/nvim-cmp' -- Completion
+  'hrsh7th/nvim-cmp', -- Completion
 
-  use 'Exafunction/codeium.vim'
+  'Exafunction/codeium.vim',
   -- configs for lsp servers
-  use 'neovim/nvim-lspconfig' -- LSP
+  'neovim/nvim-lspconfig', -- LSP
 
   --  use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
-  use 'williamboman/mason.nvim' -- Package manager for lsp
-  use 'williamboman/mason-lspconfig.nvim'
-  --
+  'williamboman/mason.nvim', -- Package manager for lsp
+  'williamboman/mason-lspconfig.nvim',
   -- LSP UIs
-  use({
+  {
     'nvimdev/lspsaga.nvim',
-    after = 'nvim-lspconfig',
     dependencies = {
       'nvim-treesitter/nvim-treesitter', -- optional
       'nvim-tree/nvim-web-devicons',     -- optional
+      'nvim-lspconfig',
     },
-  })
-
-  use {
-    "ray-x/lsp_signature.nvim",
-  }
-
+  },
+  "ray-x/lsp_signature.nvim",
   -- парсер для всех языков программирования, цветной код как в твоем
   -- любимом IDE
-  use {
+  {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-  }
+    build = ':TSUpdate',
+  },
+  'kyazdani42/nvim-web-devicons', -- File icons
+  'L3MON4D3/LuaSnip',
+  'nvim-telescope/telescope.nvim',
+  'nvim-telescope/telescope-file-browser.nvim',
 
-  use 'L3MON4D3/LuaSnip'
-  use 'kyazdani42/nvim-web-devicons' -- File icons
-
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
-
-  use 'windwp/nvim-autopairs'
-  use 'norcalli/nvim-colorizer.lua'
-  use 'folke/zen-mode.nvim'
+  'windwp/nvim-autopairs',
+  'norcalli/nvim-colorizer.lua',
+  'folke/zen-mode.nvim',
   -- buffer/tabs at horizontal menu
-  use 'akinsho/nvim-bufferline.lua'
+  'akinsho/nvim-bufferline.lua',
   -- use 'github/copilot.vim'
 
-  use 'lewis6991/gitsigns.nvim'
-  use 'dinhhuy258/git.nvim' -- For git blame & browse
+  'lewis6991/gitsigns.nvim',
+  'dinhhuy258/git.nvim', -- For git blame & browse
 
-  use 'purescript-contrib/purescript-vim'
-
-  use {
+  'purescript-contrib/purescript-vim',
+  {
     "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
+    build = function() vim.fn["mkdp#util#install"]() end,
   }
-
-  --  use {
-  --    'olexsmir/gopher.nvim',
-  --    config = function()
-  --      require('plugins.gopher')
-  --    end
-  --  }
-
-  -- use 'fatih/vim-go'
-end)
+})

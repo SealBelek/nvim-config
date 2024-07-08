@@ -6,9 +6,15 @@ end
 
 lazy.setup({
   'wbthomason/packer.nvim',
+  --{
+  --  'svrana/neosolarized.nvim', -- colorschema
+  --  dependencies = { 'tjdevries/colorbuddy.nvim' }
+  -- },
   {
-    'svrana/neosolarized.nvim', -- colorschema
-    dependencies = { 'tjdevries/colorbuddy.nvim' }
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
   },
   {
     'nvim-tree/nvim-tree.lua',       -- file explorer
@@ -68,5 +74,11 @@ lazy.setup({
   {
     "iamcco/markdown-preview.nvim",
     build = function() vim.fn["mkdp#util#install"]() end,
-  }
+  },
+  -- Debug
+  'mfussenegger/nvim-dap',
+  'leoluz/nvim-dap-go',
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
+  'theHamsta/nvim-dap-virtual-text',
+  'nvim-telescope/telescope-dap.nvim'
 })

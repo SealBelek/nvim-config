@@ -6,6 +6,7 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.shell = '/usr/bin/zsh'
 
 vim.wo.number = true
+vim.wo.signcolumn = 'yes'
 
 vim.opt.title = true
 vim.opt.autoindent = true

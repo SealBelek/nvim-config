@@ -1,10 +1,4 @@
---vim.lsp.set_log_level("debug")
-
-local status, nvim_lsp = pcall(require, "lspconfig")
-if (not status) then return end
-
 local protocol = require('vim.lsp.protocol')
-local util = require('lspconfig/util')
 
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
@@ -38,105 +32,115 @@ local on_attach = function(client, bufnr)
 end
 
 protocol.CompletionItemKind = {
-  '', -- Text
-  '', -- Method
-  '', -- Function
-  '', -- Constructor
-  '', -- Field
-  '', -- Variable
-  '', -- Class
+  '', -- Text
+  '', -- Method
+  '', -- Function
+  '', -- Constructor
+  '', -- Field
+  '', -- Variable
+  '', -- Class
   'ﰮ', -- Interface
-  '', -- Module
-  '', -- Property
-  '', -- Unit
-  '', -- Value
-  '', -- Enum
-  '', -- Keyword
+  '', -- Module
+  '', -- Property
+  '', -- Unit
+  '', -- Value
+  '', -- Enum
+  '', -- Keyword
   '﬌', -- Snippet
-  '', -- Color
-  '', -- File
-  '', -- Reference
-  '', -- Folder
-  '', -- EnumMember
-  '', -- Constant
-  '', -- Struct
-  '', -- Event
+  '', -- Color
+  '', -- File
+  '', -- Reference
+  '', -- Folder
+  '', -- EnumMember
+  '', -- Constant
+  '', -- Struct
+  '', -- Event
   'ﬦ', -- Operator
-  '', -- TypeParameter
+  '', -- TypeParameter
 }
 
 -- Set up completion using nvim_cmp with LSP source
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-nvim_lsp.flow.setup {
+-- Configure servers using the new vim.lsp.config API (Neovim 0.11+)
+vim.lsp.config('flow', {
+  cmd = { 'flow', 'lsp' },
+  filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx' },
+  root_markers = { '.flowconfig' },
   on_attach = on_attach,
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
-nvim_lsp.tsserver.setup {
+vim.lsp.config('ts_ls', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
   on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server", "--stdio" },
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
-nvim_lsp.purescriptls.setup {
-  on_attach = on_attach,
+vim.lsp.config('purescriptls', {
+  filetypes = { 'purescript' },
   settings = {
     purescript = {
-      addSpagoSources = true -- e.g. any purescript language-server config here
-    }
+      addSpagoSources = true,
+    },
   },
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
-
-nvim_lsp.sourcekit.setup {
   on_attach = on_attach,
   capabilities = capabilities,
-}
+})
 
-nvim_lsp.lua_ls.setup {
+vim.lsp.config('sourcekit', {
+  cmd = { 'sourcekit-lsp' },
+  filetypes = { 'swift' },
+  on_attach = on_attach,
   capabilities = capabilities,
+})
+
+vim.lsp.config('lua_ls', {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     enable_format_on_save(client, bufnr)
   end,
+  capabilities = capabilities,
   settings = {
     Lua = {
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
         globals = { 'vim' },
       },
-
       workspace = {
-        -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false
+        checkThirdParty = false,
       },
     },
   },
-}
+})
 
-nvim_lsp.tailwindcss.setup {
+vim.lsp.config('tailwindcss', {
+  cmd = { 'tailwindcss-language-server', '--stdio' },
+  filetypes = { 'html', 'css', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   on_attach = on_attach,
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
-nvim_lsp.cssls.setup {
+vim.lsp.config('cssls', {
+  cmd = { 'css-languageserver', '--stdio' },
+  filetypes = { 'css', 'scss', 'less' },
   on_attach = on_attach,
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
-nvim_lsp.astro.setup {
+vim.lsp.config('astro', {
+  cmd = { 'astro-ls', '--stdio' },
+  filetypes = { 'astro' },
   on_attach = on_attach,
-  capabilities = capabilities
-}
+  capabilities = capabilities,
+})
 
--- иницализация gopls LSP для Go
--- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-install
-nvim_lsp.gopls.setup({
+vim.lsp.config('gopls', {
+  cmd = { 'gopls' },
+  filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     enable_format_on_save(client, bufnr)
@@ -154,7 +158,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 -- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -166,6 +170,6 @@ vim.diagnostic.config({
   },
   update_in_insert = true,
   float = {
-    source = "always", -- Or "if_many"
+    source = "always",
   },
 })

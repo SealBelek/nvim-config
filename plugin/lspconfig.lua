@@ -73,7 +73,7 @@ vim.lsp.config('flow', {
 
 vim.lsp.config('ts_ls', {
   cmd = { 'typescript-language-server', '--stdio' },
-  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
+  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx' },
   on_attach = on_attach,
   capabilities = capabilities,
 })

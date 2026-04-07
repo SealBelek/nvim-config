@@ -5,7 +5,7 @@ treesitter.setup {
   -- список парсеров, список доступных парсеров можно посмотреть в документации
   -- либо устаналивать все, чтобы подсветка синтаксиса работала везде корректно
   -- https://github.com/nvim-treesitter/nvim-treesitter
-  ensure_installed = { "lua", "go" },
+  ensure_installed = { "lua", "go", "typescript", "javascript", "markdown" },
   sync_install = false,
   auto_install = true,
   -- включить подсветку

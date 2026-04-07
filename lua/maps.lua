@@ -44,3 +44,9 @@ vim.keymap.set('n', '<Leader>lp',
   function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
 vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
 vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+
+-- Format file
+vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format() end)
+
+-- Go to definition / Jump to file
+vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end)

@@ -29,6 +29,7 @@ vim.opt.wrap = true          -- Wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.autoread = true -- Auto reload file when changed outside of vim
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])

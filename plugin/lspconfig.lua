@@ -71,8 +71,8 @@ vim.lsp.config('flow', {
   capabilities = capabilities,
 })
 
-vim.lsp.config('ts_ls', {
-  cmd = { 'typescript-language-server', '--stdio' },
+vim.lsp.config('vtsls', {
+  cmd = { 'vtsls', '--stdio' },
   filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx' },
   on_attach = on_attach,
   capabilities = capabilities,

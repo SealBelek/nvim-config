@@ -10,6 +10,13 @@ lazy.setup({
   --  dependencies = { 'tjdevries/colorbuddy.nvim' }
   -- },
   {
+  "nemanjamalesija/ts-expand-hover.nvim",
+  ft = { "typescript", "typescriptreact" },
+  opts = {
+    keymaps = { hover = "K" }
+  }
+  },
+  {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
@@ -86,7 +93,6 @@ lazy.setup({
         }
       },
       instructions_file = "avante.md",
-      provider = "opencode",
       suggestion = {
         debounce = 600,
         throttle = 600,

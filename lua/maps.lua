@@ -50,3 +50,7 @@ vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format() end)
 
 -- Go to definition / Jump to file
 vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end)
+
+vim.keymap.set('n', '<leader>ps', function()
+	require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") })
+end)

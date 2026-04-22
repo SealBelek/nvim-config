@@ -1,5 +1,14 @@
 local keymap = vim.keymap
 
+-- Initialize DAP properly
+local dap_status, dap = pcall(require, "dap")
+if dap_status then
+  -- Ensure signs are defined
+  vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticError", linehl = "", numhl = "" })
+  vim.fn.sign_define("DapBreakpointCondition", { text = "●", texthl = "DiagnosticWarning", linehl = "", numhl = "" })
+  vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
+end
+
 keymap.set('n', 'x', '"_x')
 
 -- Increment/decrement
@@ -44,12 +53,21 @@ vim.keymap.set('n', '<Leader>lp',
   function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end)
 vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
 vim.keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
+vim.keymap.set('n', '<Leader>ds', function() require('dap').terminate() end) -- Stop debugging
+vim.keymap.set('n', '<Leader>du', function() require('dapui').toggle() end) -- Toggle DAP UI
+vim.keymap.set('n', '<Leader>dh', function() require('dap.ui.widgets').hover() end) -- Hover variables
+vim.keymap.set('n', '<Leader>dp', function() require('dap.ui.widgets').preview() end) -- Preview variables
+vim.keymap.set('n', '<Leader>df', function() require('dap.ui.widgets').focus_stack() end) -- Focus stack
+
+-- Direct DAP commands for troubleshooting
+vim.keymap.set('n', '<Leader>dtb', function() require('dap').toggle_breakpoint() end)
+vim.keymap.set('n', '\\b', function() require('dap').toggle_breakpoint() end)
 
 -- Format file
 vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format() end)
 
--- Go to definition / Jump to file
-vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end)
+-- Rename variable
+vim.keymap.set('n', '<Leader>rn', function() vim.lsp.buf.rename() end)
 
 vim.keymap.set('n', '<leader>ps', function()
 	require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") })

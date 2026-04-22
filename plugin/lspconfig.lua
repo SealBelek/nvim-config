@@ -7,6 +7,10 @@ local enable_format_on_save = function(_, bufnr)
     group = augroup_format,
     buffer = bufnr,
     callback = function()
+      vim.lsp.buf.code_action({
+        context = { only = { "source.organizeImports" } },
+        apply = true,
+      })
       vim.lsp.buf.format({ bufnr = bufnr })
     end,
   })
@@ -29,6 +33,9 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+
+  -- Format on save
+  enable_format_on_save(client, bufnr)
 end
 
 protocol.CompletionItemKind = {
@@ -99,10 +106,7 @@ vim.lsp.config('sourcekit', {
 vim.lsp.config('lua_ls', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    enable_format_on_save(client, bufnr)
-  end,
+  on_attach = on_attach,
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -141,10 +145,7 @@ vim.lsp.config('astro', {
 vim.lsp.config('gopls', {
   cmd = { 'gopls' },
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    enable_format_on_save(client, bufnr)
-  end,
+  on_attach = on_attach,
   capabilities = capabilities,
 })
 
@@ -166,7 +167,8 @@ end
 
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●'
+    prefix = '●',
+    spacing = 0,
   },
   update_in_insert = true,
   float = {

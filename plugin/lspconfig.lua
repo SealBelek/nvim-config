@@ -7,10 +7,6 @@ local enable_format_on_save = function(_, bufnr)
     group = augroup_format,
     buffer = bufnr,
     callback = function()
-      vim.lsp.buf.code_action({
-        context = { only = { "source.organizeImports" } },
-        apply = true,
-      })
       vim.lsp.buf.format({ bufnr = bufnr })
     end,
   })
@@ -83,6 +79,11 @@ vim.lsp.config('vtsls', {
   filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx', 'javascript', 'javascriptreact', 'javascript.jsx' },
   on_attach = on_attach,
   capabilities = capabilities,
+  settings = {
+    vtsls = {
+      autoUseWorkspaceTsdk = true
+    }
+  }
 })
 
 vim.lsp.config('purescriptls', {

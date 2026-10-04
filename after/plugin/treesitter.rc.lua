@@ -6,7 +6,7 @@ if not status then return end
 
 -- Установить парсеры (no-op, если уже установлены; выполняется асинхронно).
 -- Список доступных парсеров: https://github.com/nvim-treesitter/nvim-treesitter
-ts.install { "lua", "go", "typescript", "javascript", "markdown", "markdown_inline" }
+ts.install { "lua", "go", "typescript", "javascript", "markdown", "markdown_inline", "svelte" }
 
 -- Включить подсветку синтаксиса для всех файлтипов, у которых есть парсер.
 vim.api.nvim_create_autocmd("FileType", {

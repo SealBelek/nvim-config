@@ -143,6 +143,13 @@ vim.lsp.config('astro', {
   capabilities = capabilities,
 })
 
+vim.lsp.config('jsonls', {
+  cmd = { 'vscode-json-language-server', '--stdio' },
+  filetypes = { 'json', 'jsonc' },
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
 vim.lsp.config('gopls', {
   cmd = { 'gopls' },
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },

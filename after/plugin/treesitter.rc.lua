@@ -1,13 +1,16 @@
-local status, treesitter = pcall(require, "nvim-treesitter.configs")
-if (not status) then return end
+-- nvim-treesitter (ветка main) — требуется для Neovim 0.12+
+-- Старый модуль `nvim-treesitter.configs` в ветке main больше не существует,
+-- а `ensure_installed`/`highlight` из него заменены на API ниже.
+local status, ts = pcall(require, "nvim-treesitter")
+if not status then return end
 
-treesitter.setup {
-  -- список парсеров, список доступных парсеров можно посмотреть в документации
-  -- либо устаналивать все, чтобы подсветка синтаксиса работала везде корректно
-  -- https://github.com/nvim-treesitter/nvim-treesitter
-  ensure_installed = { "lua", "go", "typescript", "javascript", "markdown" },
-  sync_install = false,
-  auto_install = true,
-  -- включить подсветку
-  highlight = { enable = true }
-}
+-- Установить парсеры (no-op, если уже установлены; выполняется асинхронно).
+-- Список доступных парсеров: https://github.com/nvim-treesitter/nvim-treesitter
+ts.install { "lua", "go", "typescript", "javascript", "markdown", "markdown_inline" }
+
+-- Включить подсветку синтаксиса для всех файлтипов, у которых есть парсер.
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})

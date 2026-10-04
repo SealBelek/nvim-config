@@ -22,7 +22,7 @@ A personal Neovim configuration (dotfiles) repository, published at [github.com/
 - **UI**: lspsaga (LSP UI), lualine (statusline), nvim-bufferline (tabs)
 - **Navigation**: telescope + telescope-file-browser, nvim-tree (file explorer)
 - **Git**: gitsigns + git.nvim (git blame, browse)
-- **AI**: avante.nvim (configured to use OpenCode via `acp_providers`) + opencode.nvim plugin
+- **AI**: opencode.nvim plugin
 - **Debug**: nvim-dap + nvim-dap-go + nvim-dap-ui + telescope-dap
 - **Syntax**: nvim-treesitter (with `:TSUpdate` build command)
 - **Theme**: tokyonight.nvim
@@ -53,7 +53,6 @@ A personal Neovim configuration (dotfiles) repository, published at [github.com/
 - **lazy.nvim bootstrap** (init-lazy.lua): clones lazy.nvim on first run if not present
 - **LSP autocomplete** requires mason to download servers on first use (run `:Mason`)
 - **Treesitter parsers** must be updated with `:TSUpdate` when lazy.nvim updates them
-- **Avante.nvim build step** runs `make` on Unix or PowerShell Build.ps1 on Windows (line 83–84); requires pre-installed build tools
 - **Git integration** uses `/usr/bin/zsh` shell; some git commands may behave differently on WSL or Windows
 
 ## Testing & Verification
@@ -76,6 +75,5 @@ Repository is clean and tracked with git. Standard workflow:
 
 1. **Plugin specs use lazy.nvim syntax**, not packer (migrated in commit f8f7c16). Dependencies are declared inline.
 2. **Order matters in init.lua** – lazy must bootstrap before plugins are loaded
-3. **Avante instructions file** is set to `avante.md` (line 95); if you create an avante-specific instruction file, update this reference
-4. **Linting/formatting** is not configured in this repo; relies on LSP servers installed by mason to provide those features
-5. **Debug configuration** is minimal; nvim-dap is installed but go-specific setup is in nvim-dap-go; other languages need explicit dap config
+3. **Linting/formatting** is not configured in this repo; relies on LSP servers installed by mason to provide those features
+4. **Debug configuration** is minimal; nvim-dap is installed but go-specific setup is in nvim-dap-go; other languages need explicit dap config

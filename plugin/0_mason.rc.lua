@@ -8,5 +8,8 @@ mason.setup({
 })
 
 lspconfig.setup {
-  automatic_installation = true
+  automatic_installation = true,
+  ensure_installed = {
+    "svelte",
+  },
 }

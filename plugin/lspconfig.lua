@@ -157,29 +157,24 @@ vim.lsp.config('gopls', {
   capabilities = capabilities,
 })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    update_in_insert = false,
-    virtual_text = { spacing = 4, prefix = "●" },
-    severity_sort = true,
-  }
-)
-
--- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
-
+-- Diagnostic config (vim.lsp.with / on_publish_diagnostics config removed in Neovim 0.11+)
 vim.diagnostic.config({
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
   virtual_text = {
     prefix = '●',
-    spacing = 0,
+    spacing = 4,
   },
-  update_in_insert = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = ' ',
+      [vim.diagnostic.severity.WARN] = ' ',
+      [vim.diagnostic.severity.HINT] = ' ',
+      [vim.diagnostic.severity.INFO] = ' ',
+    },
+  },
   float = {
-    source = "always",
+    source = 'always',
   },
 })

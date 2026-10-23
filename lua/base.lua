@@ -9,6 +9,21 @@ vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 vim.opt.shell = '/usr/bin/zsh'
 
+-- Mason installs npm packages (oxlint, oxfmt, eslint, …). GUI/Cursor-launched
+-- nvim often lacks the interactive-shell PATH where pnpm puts node/npm.
+-- pnpm shims (npm) live in PNPM_HOME; node lives in PNPM_HOME/bin.
+do
+  local pnpm_home = vim.env.PNPM_HOME or (vim.fn.expand('~') .. '/.local/share/pnpm')
+  local path = vim.env.PATH or ''
+  for _, dir in ipairs({ pnpm_home .. '/bin', pnpm_home }) do
+    if vim.fn.isdirectory(dir) == 1 and not (':' .. path .. ':'):find(':' .. dir .. ':', 1, true) then
+      path = dir .. ':' .. path
+    end
+  end
+  vim.env.PATH = path
+  vim.env.PNPM_HOME = pnpm_home
+end
+
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
 

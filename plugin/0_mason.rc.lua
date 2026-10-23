@@ -11,5 +11,8 @@ lspconfig.setup {
   automatic_installation = true,
   ensure_installed = {
     "svelte",
+    "eslint",
+    "oxlint",
+    "oxfmt",
   },
 }

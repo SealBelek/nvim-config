@@ -63,8 +63,27 @@ vim.keymap.set('n', '<Leader>df', function() require('dap.ui.widgets').focus_sta
 vim.keymap.set('n', '<Leader>dtb', function() require('dap').toggle_breakpoint() end)
 vim.keymap.set('n', '\\b', function() require('dap').toggle_breakpoint() end)
 
--- Format file
-vim.keymap.set('n', '<Leader>f', function() vim.lsp.buf.format() end)
+-- Format file (prefer oxfmt when that client is attached)
+vim.keymap.set('n', '<Leader>f', function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, method = 'textDocument/formatting' })
+  local has_oxfmt = false
+  for _, client in ipairs(clients) do
+    if client.name == 'oxfmt' then
+      has_oxfmt = true
+      break
+    end
+  end
+  vim.lsp.buf.format({
+    bufnr = bufnr,
+    filter = function(client)
+      if has_oxfmt then
+        return client.name == 'oxfmt'
+      end
+      return true
+    end,
+  })
+end)
 
 -- Rename variable
 vim.keymap.set('n', '<Leader>rn', function() vim.lsp.buf.rename() end)

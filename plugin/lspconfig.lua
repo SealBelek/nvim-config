@@ -1,5 +1,27 @@
 local protocol = require('vim.lsp.protocol')
 
+-- Prefer oxfmt when attached; otherwise use any formatting client.
+local function lsp_format(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr, method = 'textDocument/formatting' })
+  local has_oxfmt = false
+  for _, client in ipairs(clients) do
+    if client.name == 'oxfmt' then
+      has_oxfmt = true
+      break
+    end
+  end
+  vim.lsp.buf.format({
+    bufnr = bufnr,
+    filter = function(client)
+      if has_oxfmt then
+        return client.name == 'oxfmt'
+      end
+      return true
+    end,
+  })
+end
+
 local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local enable_format_on_save = function(_, bufnr)
   vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
@@ -7,7 +29,7 @@ local enable_format_on_save = function(_, bufnr)
     group = augroup_format,
     buffer = bufnr,
     callback = function()
-      vim.lsp.buf.format({ bufnr = bufnr })
+      lsp_format(bufnr)
     end,
   })
 end
@@ -156,6 +178,36 @@ vim.lsp.config('gopls', {
   on_attach = on_attach,
   capabilities = capabilities,
 })
+
+-- ESLint / Oxlint / Oxfmt (project-local configs decide when they attach)
+local eslint_default_on_attach = vim.lsp.config.eslint and vim.lsp.config.eslint.on_attach
+vim.lsp.config('eslint', {
+  on_attach = function(client, bufnr)
+    if eslint_default_on_attach then
+      eslint_default_on_attach(client, bufnr)
+    end
+    on_attach(client, bufnr)
+  end,
+  capabilities = capabilities,
+})
+
+local oxlint_default_on_attach = vim.lsp.config.oxlint and vim.lsp.config.oxlint.on_attach
+vim.lsp.config('oxlint', {
+  on_attach = function(client, bufnr)
+    if oxlint_default_on_attach then
+      oxlint_default_on_attach(client, bufnr)
+    end
+    on_attach(client, bufnr)
+  end,
+  capabilities = capabilities,
+})
+
+vim.lsp.config('oxfmt', {
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
+
+vim.lsp.enable({ 'eslint', 'oxlint', 'oxfmt' })
 
 -- Diagnostic config (vim.lsp.with / on_publish_diagnostics config removed in Neovim 0.11+)
 vim.diagnostic.config({

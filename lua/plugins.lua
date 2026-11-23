@@ -119,6 +119,10 @@ lazy.setup({
   'windwp/nvim-autopairs',
   'norcalli/nvim-colorizer.lua',
   'folke/zen-mode.nvim',
+  {
+    'folke/todo-comments.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
   -- buffer/tabs at horizontal menu
   'akinsho/nvim-bufferline.lua',
   -- use 'github/copilot.vim'
